@@ -1,53 +1,19 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.0"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>01_Singleton 单例模式 - Jensen&#039;s blog</title><meta description="java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"><meta property="og:type" content="article"><meta property="og:title" content="01_Singleton 单例模式"><meta property="og:url" content="https://zhxue527.github.io/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><meta property="og:site_name" content="Jensen"><meta property="og:description" content="java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"><meta property="article:published_time" content="2020-04-05T09:36:03.000Z"><meta property="article:modified_time" content="2020-04-05T10:10:18.876Z"><meta property="article:author" content="removeif"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zhxue527.github.io/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"},"headline":"01_Singleton 单例模式","image":["https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"],"datePublished":"2020-04-05T09:36:03.000Z","dateModified":"2020-04-05T10:10:18.876Z","author":{"@type":"Person","name":"removeif"},"description":"java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"}</script><link rel="alternative" href="/atom.xml" title="Jensen&#039;s blog" type="application/atom+xml"><link rel="icon" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@latest/img/wico.png"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Ubuntu:400,600|Source+Code+Pro|Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext|Inconsolata|Itim|Lobster.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/pace/1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdnjs.loli.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="/js/globalUtils.js"></script><link rel="stylesheet" href="/live2d/waifu.css"><script type="text/javascript" async src="/live2d/autoload.js"></script></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://raw.githubusercontent.com/zhxue527/blog-image/master/logo1.bmp.png" alt="Jensen&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/media">影音</a><a class="navbar-item" href="/album">相册</a><a class="navbar-item" href="/friend">友链</a><a class="navbar-item" href="/self-talking">碎碎念</a><a class="navbar-item" href="/message">留言</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/removeif"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2020-04-05T09:36:03.000Z">2020-04-05</time><a class="commentCountImg" href="/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/#comment-container"><span class="display-none-class">4b84cdb3b44aa66562f9f524acb2c5f0</span><img class="not-gallery-item" src="/img/chat.svg"> <span class="commentCount" id="4b84cdb3b44aa66562f9f524acb2c5f0"> 99+</span>    </a><span class="level-item">5 minutes read (About 719 words)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span> visits</span></div></div><h1 class="title is-3 is-size-4-mobile">01_Singleton 单例模式</h1><div class="content"><h2 id="第一模式-Singleton-单例模式"><a href="#第一模式-Singleton-单例模式" class="headerlink" title="第一模式 Singleton-单例模式"></a>第一模式 Singleton-单例模式</h2><h1 id="·-应用场景"><a href="#·-应用场景" class="headerlink" title="· 应用场景"></a>· 应用场景</h1><p>只需要一个实例：<br>1、Factory<br>2、Manager</p>
-<h1 id="·-实现方式"><a href="#·-实现方式" class="headerlink" title="· 实现方式"></a>· 实现方式</h1><p>一、饿汗式 （常用)<br>        1、优点<br>         ①类加载到内存后，就实例化一个单例，JVM保证线程安全（一个类只加载一次)；<br>         ②简单实用，推荐使用；<br>        2、缺点：<br>          ①不管是否用到，都会在类装载时完成实例化；<br>          ②无法防反序列；<br>        3、实现代码：<br>          ①<br>      <code>public class Singleton_01 {  
-          // 2定义一个静态的INSTANCE实例  
-          private static final Singleton_01 INSTANCE = new Singleton_01();  
-          // 1私有化默认构造方法  
-          private Singleton_01 () {}  
-          // 3提供一个获取方法  
-          public static Singleton_01 getInstance(){  
-              return INSTANCE;  
-          }  
-          public void service() {}  
-          //测试是否为单例  
-          public static void main(String[] args) {  
-              Singleton_01 s1 = Singleton_01.getInstance();  
-              Singleton_01 s2 = Singleton_01.getInstance()  
-              System.out.println(s1 == s2);  
-          }  
-      }</code><br>         ②<br>      <code>// 2定义一个静态的INSTANCE实例 
-      private static final Singleton_01 INSTANCE = null;
-      static {
-          INSTANCE = new Singleton_01();
-      }</code>  </p>
-<p>二、懒汗式：<br>  1、优点：实现懒加载，只在使用时创建实例<br>  2、缺点：无法防反序列<br>  3、实现代码：<br>    ①一代（线程不安全）：<br>    <code>public class Singleton_02 {
-        // 1私有化默认构造方法
-        private Singleton_02() {}
-        // 2定义一个静态的INSTANCE实例（volatile：性能调优）
-        private static volatile Singleton_02 INSTANCE = null;
-        // 3提供一个获取方法
-        public static Singleton_02 getInstance() {
-            if (INSTANCE == null){
-    //            try {
-    //                Thread.sleep(1);
-    //            } catch (InterruptedException e) {
-    //                e.printStackTrace();
-    //            }
-                INSTANCE = new Singleton_02();
-            }
-            return INSTANCE;
-        }
-        public void service() {}
-        public static void main(String[] args){
-            for(int i=0; i&lt;100; i++){
-                new Thread(()-&gt;{
-                    System.out.println(Singleton_02.getInstance().hashCode());
-                }).start();
-            }
-        }
-    }</code><br>    ②二代（解决线程不安全，带来由于上锁导致的性能降低）：<br>    <code>// 3提供一个获取方法
-    public static synchronized Singleton_02 getInstance() {
+<html lang="en"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.0"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>01_Singleton 单例模式 - Jensen&#039;s blog</title><meta description="java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"><meta property="og:type" content="article"><meta property="og:title" content="01_Singleton 单例模式"><meta property="og:url" content="https://zhxue527.github.io/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><meta property="og:site_name" content="Jensen"><meta property="og:description" content="java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"><meta property="article:published_time" content="2020-04-05T09:36:03.000Z"><meta property="article:modified_time" content="2020-04-05T10:16:01.933Z"><meta property="article:author" content="removeif"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zhxue527.github.io/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"},"headline":"01_Singleton 单例模式","image":["https://raw.githubusercontent.com/zhxue527/blog-image/master/1581429931976.jpg"],"datePublished":"2020-04-05T09:36:03.000Z","dateModified":"2020-04-05T10:16:01.933Z","author":{"@type":"Person","name":"removeif"},"description":"java,技术分享,后端开发,支付框架,数据接口,算法,leetcode"}</script><link rel="alternative" href="/atom.xml" title="Jensen&#039;s blog" type="application/atom+xml"><link rel="icon" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@latest/img/wico.png"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Ubuntu:400,600|Source+Code+Pro|Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext|Inconsolata|Itim|Lobster.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/pace/1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdnjs.loli.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="/js/globalUtils.js"></script><link rel="stylesheet" href="/live2d/waifu.css"><script type="text/javascript" async src="/live2d/autoload.js"></script></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://raw.githubusercontent.com/zhxue527/blog-image/master/logo1.bmp.png" alt="Jensen&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/media">影音</a><a class="navbar-item" href="/album">相册</a><a class="navbar-item" href="/friend">友链</a><a class="navbar-item" href="/self-talking">碎碎念</a><a class="navbar-item" href="/message">留言</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/removeif"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2020-04-05T09:36:03.000Z">2020-04-05</time><a class="commentCountImg" href="/2020/04/05/01-Singleton-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/#comment-container"><span class="display-none-class">4b84cdb3b44aa66562f9f524acb2c5f0</span><img class="not-gallery-item" src="/img/chat.svg"> <span class="commentCount" id="4b84cdb3b44aa66562f9f524acb2c5f0"> 99+</span>    </a><span class="level-item">5 minutes read (About 719 words)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span> visits</span></div></div><h1 class="title is-3 is-size-4-mobile">01_Singleton 单例模式</h1><div class="content"><h2 id="第一模式-Singleton-单例模式"><a href="#第一模式-Singleton-单例模式" class="headerlink" title="第一模式 Singleton-单例模式"></a>第一模式 Singleton-单例模式</h2><h1 id="·-应用场景"><a href="#·-应用场景" class="headerlink" title="· 应用场景"></a>· 应用场景</h1><p>只需要一个实例：<br>1、Factory<br>2、Manager</p>
+<h1 id="·-实现方式"><a href="#·-实现方式" class="headerlink" title="· 实现方式"></a>· 实现方式</h1><p>一、饿汗式 （常用)<br>        1、优点<br>         ①类加载到内存后，就实例化一个单例，JVM保证线程安全（一个类只加载一次)；<br>         ②简单实用，推荐使用；<br>        2、缺点：<br>          ①不管是否用到，都会在类装载时完成实例化；<br>          ②无法防反序列；<br>        3、实现代码：<br>          ①  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">      public class Singleton_01 &#123;  </span><br><span class="line">          &#x2F;&#x2F; 2定义一个静态的INSTANCE实例  </span><br><span class="line">          private static final Singleton_01 INSTANCE &#x3D; new Singleton_01();  </span><br><span class="line">          &#x2F;&#x2F; 1私有化默认构造方法  </span><br><span class="line">          private Singleton_01 () &#123;&#125;  </span><br><span class="line">          &#x2F;&#x2F; 3提供一个获取方法  </span><br><span class="line">          public static Singleton_01 getInstance()&#123;  </span><br><span class="line">              return INSTANCE;  </span><br><span class="line">          &#125;  </span><br><span class="line">          public void service() &#123;&#125;  </span><br><span class="line">          &#x2F;&#x2F;测试是否为单例  </span><br><span class="line">          public static void main(String[] args) &#123;  </span><br><span class="line">              Singleton_01 s1 &#x3D; Singleton_01.getInstance();  </span><br><span class="line">              Singleton_01 s2 &#x3D; Singleton_01.getInstance()  </span><br><span class="line">              System.out.println(s1 &#x3D;&#x3D; s2);  </span><br><span class="line">          &#125;  </span><br><span class="line">      &#125;</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">         ②</span><br></pre></td></tr></table></figure>
+<pre><code>// 2定义一个静态的INSTANCE实例 
+private static final Singleton_01 INSTANCE = null;
+static {
+    INSTANCE = new Singleton_01();
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">二、懒汗式：  </span><br><span class="line">  1、优点：实现懒加载，只在使用时创建实例  </span><br><span class="line">  2、缺点：无法防反序列  </span><br><span class="line">  3、实现代码：  </span><br><span class="line">    ①一代（线程不安全）：</span><br></pre></td></tr></table></figure>
+<pre><code>public class Singleton_02 {
+    // 1私有化默认构造方法
+    private Singleton_02() {}
+    // 2定义一个静态的INSTANCE实例（volatile：性能调优）
+    private static volatile Singleton_02 INSTANCE = null;
+    // 3提供一个获取方法
+    public static Singleton_02 getInstance() {
         if (INSTANCE == null){
 //            try {
 //                Thread.sleep(1);
@@ -57,58 +23,73 @@
             INSTANCE = new Singleton_02();
         }
         return INSTANCE;
-    }</code><br>    ③三代（解决线程不安全 及 上锁导致的性能降低）：<br>        <code>// 3提供一个获取方法
-        public static Singleton_04 getInstance() {
-            if (INSTANCE == null) {
-                synchronized (Singleton_04.class){
-                    if (INSTANCE == null){
-    //                    try {
-    //                        Thread.sleep(1);
-    //                    } catch (InterruptedException e) {
-    //                        e.printStackTrace();
-    //                    }
-                        INSTANCE = new Singleton_04();
-                    }
+    }
+    public void service() {}
+    public static void main(String[] args){
+        for(int i=0; i&lt;100; i++){
+            new Thread(()-&gt;{
+                System.out.println(Singleton_02.getInstance().hashCode());
+            }).start();
+        }
+    }
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">②二代（解决线程不安全，带来由于上锁导致的性能降低）：</span><br></pre></td></tr></table></figure>
+<pre><code>// 3提供一个获取方法
+public static synchronized Singleton_02 getInstance() {
+    if (INSTANCE == null){</code></pre><p>//            try {<br>//                Thread.sleep(1);<br>//            } catch (InterruptedException e) {<br>//                e.printStackTrace();<br>//            }<br>            INSTANCE = new Singleton_02();<br>        }<br>        return INSTANCE;<br>    }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">③三代（解决线程不安全 及 上锁导致的性能降低）：</span><br></pre></td></tr></table></figure>
+<pre><code>    // 3提供一个获取方法
+    public static Singleton_04 getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Singleton_04.class){
+                if (INSTANCE == null){
+//                    try {
+//                        Thread.sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                    INSTANCE = new Singleton_04();
                 }
             }
-            return INSTANCE;
-        }</code>  </p>
-<p>三、静态内部类方式：<br>  1、优点：线程安全（由JVM保证单例）、懒加载<br>  2、缺点：无法防反序列<br>  3、实现代码：<br>    <code>public class Singleton_05 {
-        // 1私有化默认构造方法
-        private Singleton_05() {}
-        // 2通过静态内部类加载创建静态INSTANCE实例
-        private static class SingletonHolder {
-            private final static Singleton_05 INSTANCE = new Singleton_05();
         }
-        // 3提供一个获取方法
-        public static Singleton_05 getInstance(){
-            return SingletonHolder.INSTANCE;
+        return INSTANCE;
+    }</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">三、静态内部类方式：  </span><br><span class="line">  1、优点：线程安全（由JVM保证单例）、懒加载  </span><br><span class="line">  2、缺点：无法防反序列  </span><br><span class="line">  3、实现代码：</span><br></pre></td></tr></table></figure>
+<pre><code>public class Singleton_05 {
+    // 1私有化默认构造方法
+    private Singleton_05() {}
+    // 2通过静态内部类加载创建静态INSTANCE实例
+    private static class SingletonHolder {
+        private final static Singleton_05 INSTANCE = new Singleton_05();
+    }
+    // 3提供一个获取方法
+    public static Singleton_05 getInstance(){
+        return SingletonHolder.INSTANCE;
+    }
+    public void service() {}
+    public static void main(String[] args) {
+        for(int i=0; i&lt;100; i++){
+            new Thread(()-&gt;{
+                System.out.println(Singleton_05.getInstance().hashCode());
+            }).start();
         }
-        public void service() {}
-        public static void main(String[] args) {
-            for(int i=0; i&lt;100; i++){
-                new Thread(()-&gt;{
-                    System.out.println(Singleton_05.getInstance().hashCode());
-                }).start();
-            }
-        }
-    }</code>  </p>
-<p>四、枚举单例式：<br>    1、优点：<br>      ①懒加载<br>      ②线程安全<br>      ③防反序列（枚举无构造方法）<br>    2、缺点：别扭，不像一个类<br>    3、实现代码：<br><code>public enum Singleton_06 {  
-      //枚举单例
-      INSTANCE;
-      //无构造方法
-      //本身无法修改，故可以按属性直接访问
-      public void service() {}
-      public static void main(String[] args) {
-          for(int i=0; i&lt;100; i++){
-              new Thread(()-&gt;{
-                  System.out.println(Singleton_06.INSTANCE.hashCode());
-              }).start();
-          }
+    }
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">四、枚举单例式：  </span><br><span class="line">    1、优点：  </span><br><span class="line">      ①懒加载  </span><br><span class="line">      ②线程安全  </span><br><span class="line">      ③防反序列（枚举无构造方法）  </span><br><span class="line">    2、缺点：别扭，不像一个类  </span><br><span class="line">    3、实现代码：</span><br></pre></td></tr></table></figure>
+<pre><code>public enum Singleton_06 {  
+  //枚举单例
+  INSTANCE;
+  //无构造方法
+  //本身无法修改，故可以按属性直接访问
+  public void service() {}
+  public static void main(String[] args) {
+      for(int i=0; i&lt;100; i++){
+          new Thread(()-&gt;{
+              System.out.println(Singleton_06.INSTANCE.hashCode());
+          }).start();
       }
-   }</code>  </p>
-<h1 id="·图解单例模式"><a href="#·图解单例模式" class="headerlink" title="·图解单例模式"></a>·图解单例模式</h1><p><img src="/images/Singleton_2020-04-05_17-56-06.png" alt="单例模式"></p>
-</div><ul class="post-copyright"><li><strong>本文标题：</strong><a href="https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/">01_Singleton 单例模式</a></li><li><strong>本文作者：</strong><a href="https://zhxue527.github.io">Jensen</a></li><li><strong>本文链接：</strong><a href="https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/">https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/</a></li><li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul><div><div class="recommend-post"><span class="is-size-6 has-text-grey has-mr-7"># Related Post</span><br><span>  1.<a class="is-size-6" href="/2020/04/05/Blog-Demo/" target="_blank">Blog-Demo</a><br></span><span>  2.<a class="is-size-6" href="/2020/04/05/hello-world/" target="_blank">Hello World</a><br></span></div></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/css/share.min.css"><div class="social-share"></div><script src="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>Alipay</span><span class="qrcode"><img src="https://raw.githubusercontent.com/removeif/blog_image/master/img/2019/20190802135456.png" alt="Alipay"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="https://raw.githubusercontent.com/removeif/blog_image/master/img/2019/20190802135550.png" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/04/05/Blog-Demo/"><span class="level-item">Blog-Demo</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/gitalk/1.6.0/gitalk.css"><script> $.getScript('/js/gitalk.min.js', function () { 
+  }
+}</code></pre><pre><code>
+# ·图解单例模式
+![单例模式](/images/Singleton_2020-04-05_17-56-06.png)
+</code></pre></div><ul class="post-copyright"><li><strong>本文标题：</strong><a href="https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/">01_Singleton 单例模式</a></li><li><strong>本文作者：</strong><a href="https://zhxue527.github.io">Jensen</a></li><li><strong>本文链接：</strong><a href="https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/">https://zhxue527.github.io/2020/04/05/01-Singleton-单例模式/</a></li><li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul><div><div class="recommend-post"><span class="is-size-6 has-text-grey has-mr-7"># Related Post</span><br><span>  1.<a class="is-size-6" href="/2020/04/05/Blog-Demo/" target="_blank">Blog-Demo</a><br></span><span>  2.<a class="is-size-6" href="/2020/04/05/hello-world/" target="_blank">Hello World</a><br></span></div></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/css/share.min.css"><div class="social-share"></div><script src="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>Alipay</span><span class="qrcode"><img src="https://raw.githubusercontent.com/removeif/blog_image/master/img/2019/20190802135456.png" alt="Alipay"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="https://raw.githubusercontent.com/removeif/blog_image/master/img/2019/20190802135550.png" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/04/05/Blog-Demo/"><span class="level-item">Blog-Demo</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/gitalk/1.6.0/gitalk.css"><script> $.getScript('/js/gitalk.min.js', function () { 
             var gitalk = new Gitalk({
             id: '4b84cdb3b44aa66562f9f524acb2c5f0',
             repo: 'zhxue527',
